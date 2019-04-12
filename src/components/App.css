@@ -8,6 +8,8 @@ div > header {
   text-align: center;
 }
 
+button { cursor: pointer; }
+
 .section-landing {
   text-align: center;
 }
@@ -19,23 +21,33 @@ div > header {
 
 .queue-container section {
   display: flex;
-  align-items: center;
+  justify-content: center;
   flex: 5;
   flex-basis: 13em;
+  flex-direction: column;
   margin: 1em;
   padding: 1.5em;
   background-color: #e0e0e0;
 }
 
 section header {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 1.5em;
+}
+
+.preview {
+  width: 22em;
+  height: 20em;
+  display: block;
+  margin: 0 auto 1.5em auto;
+  border: 10px solid #c1c1c1;
+  overflow: hidden;
   text-align: center;
 }
 
-section img {
-  width: 70%;
-  height: auto;
-  margin: 0 0 1.5em 0;
-  border: 10px solid #c1c1c1;
+.preview img {
+  height: 100%;
 }
 
 .pet-info {
@@ -49,6 +61,23 @@ section img {
 }
 .pet-info li span {
   font-weight: normal;
+}
+
+.pet-list {
+  margin: 1em 0 0 0;
+  padding: 0;
+  list-style-type: none;
+}
+.pet-list li {
+  display: flex;
+  margin: 1em 0 0 0;
+}
+.pet-list img {
+  width: 3.3em;
+  height: 3.3em;
+  margin: 0 .75em 0 0;
+  border-radius: 50%;
+  border: 1px solid black;
 }
 
 .btn-adopt {

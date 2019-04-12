@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import CurrentCat from '../components/CurrentCat';
-import CurrentDog from '../components/CurrentDog';
+import CurrentPet from '../components/CurrentPet';
+import PetList from '../components/PetList';
 import config from '../config';
 
 export default class DashPage extends Component {
@@ -38,7 +38,27 @@ export default class DashPage extends Component {
         breed: 'supercat',
         story: 'found behind a dumpster',
         adopted: false,
-      }
+      },
+      {
+        imageURL: 'https://boygeniusreport.files.wordpress.com/2017/01/cat.jpg?quality=98&strip=all&w=782',
+        imageDescription: 'A cat',
+        name: 'Cheesecake',
+        sex: 'female',
+        age: 8,
+        breed: 'supercat',
+        story: 'found behind a dumpster',
+        adopted: false,
+      },
+      {
+        imageURL: 'https://static.boredpanda.com/blog/wp-content/uploads/2016/02/japanese-grumpy-cat-angry-koyuki-moflicious-22.jpg',
+        imageDescription: 'A cat',
+        name: 'Joy',
+        sex: 'female',
+        age: 8,
+        breed: 'supercat',
+        story: 'found behind a dumpster',
+        adopted: false,
+      },
     ];
     let queueDogs = [];
 
@@ -52,9 +72,42 @@ export default class DashPage extends Component {
 
     if(! pet.adopted) {
       // PATCH request goes here
+      // for request body, just send the name (to put in queue)
       console.log('congrats on ur new pet');
     } else {
       console.log('error: pet already adopted');
+    }
+  }
+
+  prev(type) {
+    if(type === 'cat') {
+      const newIndex = this.state.selectedCatIndex - 1;
+
+      if(newIndex < this.state.queueCats.length && newIndex >= 0) {
+        this.setState({selectedCatIndex: newIndex});
+      }
+    } else {
+      const newIndex = this.state.selectedDogIndex - 1;
+      
+      if(newIndex < this.state.queueDogs.length && newIndex >= 0) {
+        this.setState({selectedDogIndex: newIndex});
+      }
+    }
+  }
+
+  next(type) {
+    if(type === 'cat') {
+      const newIndex = this.state.selectedCatIndex + 1;
+
+      if(newIndex < this.state.queueCats.length && newIndex >= 0) {
+        this.setState({selectedCatIndex: newIndex});
+      }
+    } else {
+      const newIndex = this.state.selectedDogIndex + 1;
+      
+      if(newIndex < this.state.queueDogs.length && newIndex >= 0) {
+        this.setState({selectedDogIndex: newIndex});
+      }
     }
   }
 
@@ -66,11 +119,18 @@ export default class DashPage extends Component {
       <main>
         <div className="queue-container">
           <section className="queue-dogs">
-            <CurrentDog pet={currentDog} adopt={() => this.adopt('dog')} />            
+            <CurrentPet type="dog" pet={currentDog} 
+              adopt={() => this.adopt('dog')} 
+              prev={() => this.prev('dog')} 
+              next={() => this.next('dog')} />    
           </section>
 
           <section className="queue-cats">
-            <CurrentCat pet={currentCat} adopt={() => this.adopt('cat')} />
+            <CurrentPet type="cat" pet={currentCat} 
+              adopt={() => this.adopt('cat')} 
+              prev={() => this.prev('cat')} 
+              next={() => this.next('cat')} />
+            <PetList pets={this.state.queueCats} selected={this.state.selectedCatIndex} />
           </section>
         </div>
       </main>

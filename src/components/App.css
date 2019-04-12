@@ -91,3 +91,10 @@ section header {
   font-size: 1.5em;
   color: gray;
 }
+
+.loader {
+  font-size: 3em;
+  color: gray;
+  text-align: center;
+  margin: 25%;
+}

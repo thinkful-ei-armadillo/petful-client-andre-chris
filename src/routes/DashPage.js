@@ -8,6 +8,7 @@ export default class DashPage extends Component {
     super(props);
 
     this.state = {
+      loading: true,
       queueCats: [],
       queueDogs: [],
       selectedCatIndex: 0,
@@ -62,7 +63,7 @@ export default class DashPage extends Component {
     ];
     let queueDogs = [];
 
-    this.setState({queueCats, queueDogs});
+    this.setState({queueCats, queueDogs, loading: false});
   }
 
   adopt(type) {
@@ -114,6 +115,10 @@ export default class DashPage extends Component {
   render() {
     const currentCat = this.state.queueCats[this.state.selectedCatIndex] || this.state.emptyObj;
     const currentDog = this.state.queueDogs[this.state.selectedDogIndex] || this.state.emptyObj;
+
+    if(this.state.loading) {
+      return <div className="loader">Loading...</div>;
+    }
 
     return (
       <main>

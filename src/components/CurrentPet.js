@@ -6,6 +6,8 @@ export default class CurrentCat extends Component {
       return <p className="alert-empty">All {this.props.type}s have a safe home! Please wait for more {this.props.type}s to show up.</p>
     }
 
+    const adopter = this.props.pet.adopted === '' ? 'Nobody' : this.props.pet.adopted;
+
     return (
       <article>
         <header>
@@ -23,6 +25,7 @@ export default class CurrentCat extends Component {
           <li>Sex: <span>{this.props.pet.sex}</span></li>
           <li>Breed: <span>{this.props.pet.breed}</span></li>
           <li>Story: <span>{this.props.pet.story}</span></li>
+          <li>Adopted by: <span>{adopter}</span></li>
         </ul>
 
         <button type="button" className="btn-adopt" onClick={this.props.adopt}>Adopt me!</button>

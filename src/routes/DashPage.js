@@ -27,43 +27,29 @@ export default class DashPage extends Component {
     };
   }
 
-  componentWillMount() {
-    // GET request goes here
-    let queueCats = [
-      {
-        imageURL: 'https://www.humanesociety.org/sites/default/files/styles/400x400/public/2018/06/cat-217679.jpg?h=c4ed616d&itok=H0FcH69a',
-        imageDescription: 'A cat',
-        name: 'Falafel the cat',
-        sex: 'female',
-        age: 8,
-        breed: 'supercat',
-        story: 'found behind a dumpster',
-        adopted: false,
-      },
-      {
-        imageURL: 'https://boygeniusreport.files.wordpress.com/2017/01/cat.jpg?quality=98&strip=all&w=782',
-        imageDescription: 'A cat',
-        name: 'Cheesecake',
-        sex: 'female',
-        age: 8,
-        breed: 'supercat',
-        story: 'found behind a dumpster',
-        adopted: false,
-      },
-      {
-        imageURL: 'https://static.boredpanda.com/blog/wp-content/uploads/2016/02/japanese-grumpy-cat-angry-koyuki-moflicious-22.jpg',
-        imageDescription: 'A cat',
-        name: 'Joy',
-        sex: 'female',
-        age: 8,
-        breed: 'supercat',
-        story: 'found behind a dumpster',
-        adopted: false,
-      },
-    ];
+  componentDidMount() {
+    const interval = setInterval(() => {
+      this.getData();
+    }, 6000);
+  }
+
+  getData() {
+    let queueCats = [];
     let queueDogs = [];
 
-    this.setState({queueCats, queueDogs, loading: false});
+    fetch(`${config.REACT_APP_API_ENDPOINT}/cats`)
+      .then(res => res.json())
+      .then(json => {
+        queueCats = json || [];
+
+        fetch(`${config.REACT_APP_API_ENDPOINT}/dogs`)
+          .then(res => res.json())
+          .then(json => {
+            queueDogs = json || [];
+
+            this.setState({queueCats, queueDogs, loading: false});
+          });
+      });
   }
 
   adopt(type) {
@@ -71,13 +57,21 @@ export default class DashPage extends Component {
       ? this.state.queueCats[this.state.selectedCatIndex]
       : this.state.queueDogs[this.state.selectedDogIndex];
 
-    if(! pet.adopted) {
-      // PATCH request goes here
-      // for request body, just send the name (to put in queue)
-      console.log('congrats on ur new pet');
+    console.log(pet);
+
+    if(pet.adopted === '') {
+      fetch(`${config.REACT_APP_API_ENDPOINT}/${type}s/${pet.name}`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({adopted: this.getRandomName()})
+      });
     } else {
       console.log('error: pet already adopted');
     }
+  }
+
+  getRandomName() {
+    return 'John';
   }
 
   prev(type) {
@@ -128,6 +122,7 @@ export default class DashPage extends Component {
               adopt={() => this.adopt('dog')} 
               prev={() => this.prev('dog')} 
               next={() => this.next('dog')} />    
+            <PetList pets={this.state.queueDogs} selected={this.state.selectedDogIndex} />            
           </section>
 
           <section className="queue-cats">

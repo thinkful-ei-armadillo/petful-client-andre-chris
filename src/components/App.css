@@ -21,7 +21,7 @@ button { cursor: pointer; }
 
 .queue-container section {
   display: flex;
-  justify-content: center;
+  justify-content: end;
   flex: 5;
   flex-basis: 13em;
   flex-direction: column;
